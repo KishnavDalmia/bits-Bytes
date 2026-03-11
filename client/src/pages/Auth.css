@@ -1,0 +1,78 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    width: 50%;
+}
+
+.input-gp{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.container{
+    min-width: 100vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.image{
+    border-radius: 2rem;
+    padding: 2rem;
+}
+
+.form-input{
+    width: 25rem;
+    background: #fff;
+    color: #2d2c2c;
+    border-radius: 0.7rem;
+    height: 1.2rem;
+    padding:0.5rem;
+}
+
+.form-label{
+    color:#707070;
+}
+
+.heading{
+    font-size: 4rem;
+    font-weight: 600;
+    color: #fff;
+    text-align: left;
+}
+
+.subheading{
+    font-size: 1.5rem;
+    color: lightgray;
+    max-width: 35rem;
+    line-height: 1;
+    text-align: left;
+}
+
+.submit{
+    font-size: 1.2rem;
+    padding: 0.5rem 3rem;
+    background: #3b82f6;
+    margin-top: 1rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 1px 1px 7px rgba(255,255,255,0.4);
+    font-weight: 600;
+}
+
+.submit:hover{
+    background: #2563eb;
+    box-shadow: 1px 1px 10px rgba(255,255,255,0.6);
+}
+
+.role-heading{
+    font-size: 1.2rem;
+    color: #fff;
+    margin-top: 1rem;
+    align-self: start;
+}

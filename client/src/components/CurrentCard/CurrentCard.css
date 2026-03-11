@@ -1,0 +1,40 @@
+.card-container{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: start;
+    justify-content: space-evenly;
+    padding: 1rem;
+    border-radius: 1rem;
+    border-left: solid 2px #ff6a00;
+    background: #040710;
+    min-width: 25rem;
+    position: relative;
+}
+
+.tag{
+    background: #ffde21;
+    color: #ffab03f5;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    position: absolute;
+    top: 0.8rem;
+    right: 1rem;
+}
+
+.flex-item{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.flex-item h2{
+    font-size: 1rem;
+    font-weight: 500;
+}
+.flex-item span{
+    font-size: 1.5rem;
+    color: #787878;
+}
