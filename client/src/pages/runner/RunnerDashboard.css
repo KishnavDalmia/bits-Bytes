@@ -1,0 +1,287 @@
+.runner-dashboard {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+}
+
+.runner-container {
+  padding: 1rem 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.runner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.runner-header h1 {
+  font-weight: 700;
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.runner-header p {
+  margin: 0;
+  color: #787878;
+}
+
+.runner-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: #ffa500;
+  color: #000;
+  font-weight: 500;
+}
+
+.error-alert {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  background: rgba(220, 53, 69, 0.15);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  color: #ff6b6b;
+}
+
+.error-alert button {
+  background: transparent;
+  border: none;
+  color: #ff6b6b;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  line-height: 1;
+}
+
+.error-alert button:hover {
+  opacity: 0.8;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .stats-row {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.stat-card {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+  background: #111;
+  border: 1px solid #222;
+}
+
+.stat-number {
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.stat-number.available {
+  color: #ffa500;
+}
+
+.stat-number.active {
+  color: #28a745;
+}
+
+.stat-label {
+  color: #aaa;
+  font-size: 0.85rem;
+}
+
+.content-row {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .content-row {
+    grid-template-columns: 7fr 5fr;
+  }
+}
+
+.section-title {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.empty-state {
+  border-radius: 0.75rem;
+  padding: 2rem;
+  text-align: center;
+  background: #111;
+  border: 1px dashed #333;
+  color: #666;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.order-card {
+  border-radius: 0.75rem;
+  padding: 1rem;
+  background: #111;
+  border: 1px solid #222;
+}
+
+.order-card.active {
+  border: 1px solid rgba(40, 167, 69, 0.33);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.order-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.location-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  background: #1a1a1a;
+}
+
+.location-badge.from {
+  color: #ffa500;
+  border: 1px solid rgba(255, 165, 0, 0.33);
+}
+
+.location-badge.to {
+  color: #4fc3f7;
+  border: 1px solid rgba(79, 195, 247, 0.33);
+}
+
+.arrow-text {
+  color: #6c757d;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.status-badge.pending {
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+}
+
+.status-badge.active {
+  background: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+}
+
+.status-badge.completed {
+  background: rgba(108, 117, 125, 0.15);
+  color: #6c757d;
+}
+
+.order-description {
+  margin-bottom: 1rem;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.order-time {
+  color: #555;
+  font-size: 0.85rem;
+}
+
+.accept-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  background: #ffa500;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.accept-btn:hover {
+  opacity: 0.9;
+}
+
+.accept-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.accept-btn .spinner {
+  display: inline-block;
+  width: 0.875rem;
+  height: 0.875rem;
+  border: 2px solid transparent;
+  border-top-color: #000;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-right: 0.25rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.order-title {
+  font-weight: 600;
+}
+
+.chat-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  background: #1a1a1a;
+  color: #ffa500;
+  border: 1px solid #ffa50055;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.chat-btn:hover {
+  background: #ffa500;
+  color: #000;
+}

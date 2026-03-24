@@ -1,12 +1,17 @@
 import mongoose from 'mongoose';
 
-const connectDB = async ()=>{
-    try{
-        await mongoose.connect(process.env.MONGO_URI);
-        console.log('MongoDB connected successfully');
-    }
-    catch(e){
-        console.log(e);
+const connectDB = async () => {
+    try {
+        const conn = await mongoose.connect(process.env.MONGO_URI, {
+            dbName: 'bitsBytes',
+            serverSelectionTimeoutMS: 10000,
+            connectTimeoutMS: 10000,
+        });
+        console.log(`MongoDB connected successfully: ${conn.connection.host}`);
+    } catch (error) {
+        console.error('MongoDB connection error:', error.message);
+        console.error('Full error:', error);
+        // Don't exit, let the app continue but log the error
     }
 }
 

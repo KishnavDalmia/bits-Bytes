@@ -8,62 +8,134 @@ import { useState } from 'react'
 const Register = () => {
   const navigate = useNavigate();
   const [error, setError] = useState('');
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: '',
+    role: 'Customer'
+  });
 
-  const handleRegister = async (e) =>{
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleRegister = async (e) => {
     e.preventDefault();
-    const role = document.querySelector('input[name="role"]:checked').value;
-    try{
-      const res = await axios.post('http://localhost:3000/api/auth/register',{
-        name,
-        email,
-        role,
-        password
-      });
-      console.log(res.data);
-      navigate(`/${role}/dashboard`);
-    }catch(err){
-      setError(err.response.data.message);
-      console.log(err);
+    setError('');
+    
+    if (!formData.name.trim() || !formData.email.trim() || !formData.password.trim()) {
+      setError('Please fill in all fields');
+      return;
     }
 
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters');
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      const res = await axios.post('http://localhost:3000/api/auth/register', formData, { 
+        withCredentials: true 
+      });
+      navigate(res.data.redirectTo);
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   }
+
   return (
     <>
       <Navbar/>
       <div className='container'>
-      <form onSubmit={handleRegister} className='form'>
-        <h1 className='heading'>Register</h1>
-        <h2 className='subheading'>Create a new account</h2>
-        <div className="input-gp">
-          <label htmlFor="name" className='form-label'>Name</label> 
-          <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} placeholder='John Doe' className='form-input'/>
-        </div>
-        <h4 className='role-heading'>Role</h4>
-        <div className="input-gp-role">
-          <input type="radio" name="role" value="Customer" className='form-input'/>
-          <label htmlFor="role" className='form-label'>Customer</label>
-          <input type="radio" name="role" value="Runner" className='form-input'/>
-          <label htmlFor="role" className='form-label'>Runner</label>
-        </div>
-        <div className="input-gp">
-          <label htmlFor="email" className='form-label'>Email</label> 
-          <input type="text" name="email" onChange={(e) => setEmail(e.target.value)} value={email} placeholder='johndoe@gmail.com' className='form-input'/>
-        </div>
-        <div className="input-gp">
-          <label htmlFor="password" className='form-label'>Password</label> 
-          <input type="password" name="password" onChange={(e) => setPassword(e.target.value)} value={password} placeholder='Enter your password' className='form-input'/>
-        </div>
-        <button type="submit" className='submit'>Submit</button>
-      </form>
-      <div className='image'>
-        <img src="/hero.png" alt="cover photo" />
+        <form onSubmit={handleRegister} className='form'>
+          <h1 className='heading'>Register</h1>
+          <h2 className='subheading'>Create a new account</h2>
+          
+          {error && <p className='auth-error'>{error}</p>}
+          
+          <div className="input-gp">
+            <label htmlFor="name" className='form-label'>Name</label> 
+            <input 
+              type="text" 
+              id="name"
+              name="name" 
+              value={formData.name} 
+              onChange={handleChange} 
+              placeholder='John Doe' 
+              className='form-input'
+            />
+          </div>
+          
+          <div className="input-gp">
+            <span className='role-heading'>Role</span>
+            <div className="input-gp-role">
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="role" 
+                  value="Customer" 
+                  checked={formData.role === 'Customer'}
+                  onChange={handleChange}
+                  className='form-radio'
+                />
+                <span className="radio-label">Customer</span>
+              </label>
+              <label className="radio-item">
+                <input 
+                  type="radio" 
+                  name="role" 
+                  value="Runner" 
+                  checked={formData.role === 'Runner'}
+                  onChange={handleChange}
+                  className='form-radio'
+                />
+                <span className="radio-label">Runner</span>
+              </label>
+            </div>
+          </div>
+          
+          <div className="input-gp">
+            <label htmlFor="email" className='form-label'>Email</label> 
+            <input 
+              type="email" 
+              id="email"
+              name="email" 
+              onChange={handleChange} 
+              value={formData.email} 
+              placeholder='johndoe@gmail.com' 
+              className='form-input'
+            />
+          </div>
+          
+          <div className="input-gp">
+            <label htmlFor="password" className='form-label'>Password</label> 
+            <input 
+              type="password" 
+              id="password"
+              name="password" 
+              onChange={handleChange} 
+              value={formData.password} 
+              placeholder='Enter your password' 
+              className='form-input'
+            />
+          </div>
+          
+          <button type="submit" className='submit' disabled={loading}>
+            {loading ? 'Creating Account...' : 'Create Account'}
+          </button>
+        </form>
       </div>
-    </div>
     </>
-    
   )
 }
 
