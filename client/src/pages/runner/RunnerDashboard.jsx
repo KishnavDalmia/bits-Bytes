@@ -1,26 +1,26 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
+import api from '../../services/apiService'
 import Navbar from '../../components/Navbar/Navbar'
 import ChatModal from '../../components/ChatModal/ChatModal'
+import formValidation from '../../services/formValidation'
 import './RunnerDashboard.css'
-
-const API = 'http://localhost:3000/api/orders'
 
 const RunnerDashboard = () => {
   const [availableOrders, setAvailableOrders] = useState([])
   const [myDeliveries, setMyDeliveries] = useState([])
   const [accepting, setAccepting] = useState(null)
+  const [completing, setCompleting] = useState(null)
   const [error, setError] = useState('')
   const [chatOrderId, setChatOrderId] = useState(null)
 
   const fetchData = async () => {
     try {
       const [pendingRes, myDeliveriesRes] = await Promise.all([
-        axios.get(`${API}/pending`, { withCredentials: true }),
-        axios.get(`${API}/my-deliveries`, { withCredentials: true })
+        api.get('/orders/pending'),
+        api.get('/orders/my-deliveries')
       ])
       setAvailableOrders(pendingRes.data)
-      setMyDeliveries(myDeliveriesRes.data.filter(o => o.status === 'active'))
+      setMyDeliveries(myDeliveriesRes.data)
     } catch {
       setError('Failed to load orders.')
     }
@@ -35,18 +35,37 @@ const RunnerDashboard = () => {
   const handleAccept = async (orderId) => {
     setAccepting(orderId)
     try {
-      await axios.patch(`${API}/${orderId}/accept`, {}, { withCredentials: true })
+      await api.patch(`/orders/${orderId}/accept`)
       await fetchData()
+      formValidation.showSuccess('Order accepted!')
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to accept order.')
+      setError(err.message || 'Failed to accept order.')
+      formValidation.showErrorToast(err.message || 'Failed to accept order.')
     } finally {
       setAccepting(null)
+    }
+  }
+
+  const handleComplete = async (orderId) => {
+    setCompleting(orderId)
+    try {
+      await api.patch(`/orders/${orderId}/complete`)
+      await fetchData()
+      formValidation.showSuccess('Delivery completed!')
+    } catch (err) {
+      setError(err.message || 'Failed to complete order.')
+      formValidation.showErrorToast(err.message || 'Failed to complete order.')
+    } finally {
+      setCompleting(null)
     }
   }
 
   const statusBadge = (status) => (
     <span className={`status-badge ${status}`}>{status}</span>
   )
+
+  const activeDeliveries = myDeliveries.filter(o => o.status === 'active')
+  const completedDeliveries = myDeliveries.filter(o => o.status === 'completed')
 
   return (
     <div className="runner-dashboard">
@@ -81,8 +100,12 @@ const RunnerDashboard = () => {
             <div className="stat-label">Available</div>
           </div>
           <div className="stat-card">
-            <div className="stat-number active">{myDeliveries.length}</div>
+            <div className="stat-number active">{activeDeliveries.length}</div>
             <div className="stat-label">My Active</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-number completed">{completedDeliveries.length}</div>
+            <div className="stat-label">Completed</div>
           </div>
         </div>
 
@@ -104,6 +127,7 @@ const RunnerDashboard = () => {
                       {statusBadge(order.status)}
                     </div>
                     <p className="order-description">{order.description}</p>
+                    <div className="order-cost">₹{order.cost || 50}</div>
                     <div className="order-footer">
                       <small className="order-time">
                         {new Date(order.createdAt).toLocaleString()}
@@ -126,27 +150,39 @@ const RunnerDashboard = () => {
 
           <div className="section">
             <h4 className="section-title">My Active Deliveries</h4>
-            {myDeliveries.length === 0 ? (
-              <div className="empty-state">You haven't accepted any orders yet.</div>
+            {activeDeliveries.length === 0 ? (
+              <div className="empty-state">No active deliveries.</div>
             ) : (
               <div className="orders-list">
-                {myDeliveries.map(order => (
+                {activeDeliveries.map(order => (
                   <div key={order._id} className="order-card active">
                     <div className="order-header">
                       <span className="order-title">{order.from} → {order.to}</span>
                       {statusBadge(order.status)}
                     </div>
                     <p className="order-description">{order.description}</p>
+                    <div className="order-cost">₹{order.cost || 50}</div>
                     <div className="order-footer">
                       <small className="order-time">
                         {new Date(order.createdAt).toLocaleString()}
                       </small>
-                      <button
-                        className="chat-btn"
-                        onClick={() => setChatOrderId(order._id)}
-                      >
-                        Chat
-                      </button>
+                      <div className="action-buttons">
+                        <button
+                          className="chat-btn"
+                          onClick={() => setChatOrderId(order._id)}
+                        >
+                          Chat
+                        </button>
+                        <button
+                          className="complete-btn"
+                          onClick={() => handleComplete(order._id)}
+                          disabled={completing === order._id}
+                        >
+                          {completing === order._id ? (
+                            <><span className="spinner"></span> Completing...</>
+                          ) : 'Mark Delivered'}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -154,6 +190,29 @@ const RunnerDashboard = () => {
             )}
           </div>
         </div>
+
+        {completedDeliveries.length > 0 && (
+          <div className="section completed-section">
+            <h4 className="section-title">Completed Deliveries</h4>
+            <div className="orders-list">
+              {completedDeliveries.map(order => (
+                <div key={order._id} className="order-card completed">
+                  <div className="order-header">
+                    <span className="order-title">{order.from} → {order.to}</span>
+                    {statusBadge(order.status)}
+                  </div>
+                  <p className="order-description">{order.description}</p>
+                  <div className="order-cost">₹{order.cost || 50}</div>
+                  <div className="order-footer">
+                    <small className="order-time">
+                      {new Date(order.createdAt).toLocaleString()}
+                    </small>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

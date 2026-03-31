@@ -3,10 +3,8 @@ import Navbar from '../../components/Navbar/Navbar'
 import PastCard from '../../components/PastCard/PastCard'
 import NewOrderModal from '../../components/NewOrderModal/NewOrderModal'
 import ChatModal from '../../components/ChatModal/ChatModal'
-import axios from 'axios'
+import api from '../../services/apiService'
 import './CustomerDashboard.css'
-
-const API = 'http://localhost:3000/api/orders'
 
 const CustomerDashboard = () => {
   const [orders, setOrders] = useState([])
@@ -18,7 +16,7 @@ const CustomerDashboard = () => {
 
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${API}/mine`, { withCredentials: true })
+        const res = await api.get('/orders/mine')
         if (isMounted) setOrders(res.data)
       } catch (err) {
         console.error('Failed to fetch orders', err)
@@ -41,12 +39,13 @@ const CustomerDashboard = () => {
     <div className="customer-page">
       <Navbar />
       {showModal && (
-        <NewOrderModal onClose={() => setShowModal(false)} onSuccess={() => {
-          const refetch = async () => {
-            const res = await axios.get(`${API}/mine`, { withCredentials: true })
+        <NewOrderModal onClose={() => setShowModal(false)} onSuccess={async () => {
+          try {
+            const res = await api.get('/orders/mine')
             setOrders(res.data)
+          } catch (err) {
+            console.error('Failed to refetch orders', err)
           }
-          refetch()
         }} />
       )}
       {chatOrderId && (
@@ -84,6 +83,7 @@ const CustomerDashboard = () => {
                     {getStatusBadge(order.status)}
                   </div>
                   <p className="order-description">{order.description}</p>
+                  <div className="order-cost">₹{order.cost || 50}</div>
                   {order.status === 'active' && (
                     <button
                       className="chat-btn"

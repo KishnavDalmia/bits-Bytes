@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
+import api from '../../services/apiService'
 import './ChatModal.css'
-
-const API = 'http://localhost:3000/api/orders'
 
 const ChatModal = ({ orderId, onClose, userRole }) => {
   const [messages, setMessages] = useState([])
@@ -21,7 +19,7 @@ const ChatModal = ({ orderId, onClose, userRole }) => {
     const fetchMessages = async () => {
       try {
         console.log('Fetching messages for orderId:', orderId)
-        const res = await axios.get(`${API}/${orderId}/messages`, { withCredentials: true })
+        const res = await api.get(`/orders/${orderId}/messages`)
         if (isMounted) {
           setMessages(res.data)
           setLoading(false)
@@ -29,8 +27,8 @@ const ChatModal = ({ orderId, onClose, userRole }) => {
         }
       } catch (err) {
         if (isMounted) {
-          console.error('Chat error:', err.response?.status, err.response?.data)
-          setError(`Error ${err.response?.status}: ${err.response?.data?.message || 'Failed to load messages'}`)
+          console.error('Chat error:', err.status, err.data)
+          setError(`Error ${err.status}: ${err.message || 'Failed to load messages'}`)
           setLoading(false)
         }
       }
@@ -54,15 +52,11 @@ const ChatModal = ({ orderId, onClose, userRole }) => {
     if (!newMessage.trim()) return
 
     try {
-      const res = await axios.post(
-        `${API}/${orderId}/messages`,
-        { text: newMessage },
-        { withCredentials: true }
-      )
+      const res = await api.post(`/orders/${orderId}/messages`, { text: newMessage })
       setMessages(prev => [...prev, res.data])
       setNewMessage('')
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to send message')
+      setError(err.message || 'Failed to send message')
     }
   }
 

@@ -148,8 +148,15 @@
 .order-description {
   color: var(--text-secondary);
   font-size: 0.9rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   line-height: 1.5;
+}
+
+.order-cost {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #28a745;
+  margin-bottom: 1rem;
 }
 
 .chat-btn {
@@ -181,6 +188,7 @@
     flex-direction: column;
     gap: 1.5rem;
     text-align: center;
+    padding: 1.5rem 1rem;
   }
   
   .header h1 {
@@ -190,5 +198,43 @@
   .place-order-btn {
     width: 100%;
     justify-content: center;
+  }
+  
+  .orders {
+    padding: 1.5rem 1rem;
+  }
+  
+  .order-card {
+    min-width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.25rem;
+  }
+  
+  .header h2 {
+    font-size: 0.875rem;
+  }
+  
+  .place-order-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.875rem;
+  }
+  
+  .order-card {
+    padding: 1rem;
+  }
+  
+  .order-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .order-cost {
+    font-size: 1.1rem;
   }
 }

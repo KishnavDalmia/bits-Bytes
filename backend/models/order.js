@@ -36,6 +36,11 @@ const orderSchema = new mongoose.Schema({
     required: true,
     default: 'Add details about your order here'
   },
+  cost: {
+    type: Number,
+    required: true,
+    default: 50
+  },
   status: {
     type: String,
     enum: ['pending', 'active', 'completed'],

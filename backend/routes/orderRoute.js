@@ -6,7 +6,8 @@ import {
   acceptOrder,
   getMyRunnerDeliveries,
   getMessages,
-  sendMessage
+  sendMessage,
+  completeOrder
 } from '../controllers/orderController.js'
 
 const orderRouter = express.Router()
@@ -16,6 +17,7 @@ orderRouter.get('/mine', getMyOrders)
 orderRouter.get('/pending', getPendingOrders)
 orderRouter.get('/my-deliveries', getMyRunnerDeliveries)
 orderRouter.patch('/:id/accept', acceptOrder)
+orderRouter.patch('/:id/complete', completeOrder)
 orderRouter.get('/:id/messages', getMessages)
 orderRouter.post('/:id/messages', sendMessage)
 

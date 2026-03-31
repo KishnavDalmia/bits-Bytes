@@ -5,7 +5,7 @@ const createOrder = async (req, res) => {
         if (!req.session.userId) {
             return res.status(401).json({ message: 'Not authenticated' });
         }
-        const { from, to, description } = req.body;
+        const { from, to, description, cost } = req.body;
         if (!from || !to || !description) {
             return res.status(400).json({ message: 'Please fill in all fields' });
         }
@@ -14,6 +14,7 @@ const createOrder = async (req, res) => {
             from,
             to,
             description,
+            cost: cost || 50,
         });
         res.status(201).json(order);
     } catch (error) {
@@ -162,4 +163,31 @@ const sendMessage = async (req, res) => {
     }
 };
 
-export { createOrder, getMyOrders, getPendingOrders, acceptOrder, getMyRunnerDeliveries, getMessages, sendMessage };
+const completeOrder = async (req, res) => {
+    try {
+        if (!req.session.userId) {
+            return res.status(401).json({ message: 'Not authenticated' });
+        }
+        
+        const order = await Order.findById(req.params.id);
+        if (!order) {
+            return res.status(404).json({ message: 'Order not found' });
+        }
+        
+        if (order.runnerId?.toString() !== req.session.userId.toString()) {
+            return res.status(403).json({ message: 'Only the assigned runner can complete this order' });
+        }
+        
+        if (order.status !== 'active') {
+            return res.status(400).json({ message: 'Only active orders can be completed' });
+        }
+        
+        order.status = 'completed';
+        await order.save();
+        res.json(order);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export { createOrder, getMyOrders, getPendingOrders, acceptOrder, getMyRunnerDeliveries, getMessages, sendMessage, completeOrder };
