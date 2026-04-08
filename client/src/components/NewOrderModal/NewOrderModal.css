@@ -1,4 +1,3 @@
-/* NewOrderModal styles - prefixed with 'nom-' to avoid Bootstrap clashes */
 .nom-overlay {
   position: fixed;
   top: 0;
@@ -169,7 +168,6 @@
   transform: none;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .nom-overlay {
     padding: 0;

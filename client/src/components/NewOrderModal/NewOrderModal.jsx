@@ -13,7 +13,6 @@ const NewOrderModal = ({ onClose, onSuccess }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Close on Escape key and prevent body scroll
   useEffect(() => {
     const handleEscape = (e) => {
       if (e.key === 'Escape') {

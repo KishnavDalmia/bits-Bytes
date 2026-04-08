@@ -1,20 +1,15 @@
 import $ from 'jquery';
 
-// jQuery-based form validation utility
 const formValidation = {
-  // Show error message for a field
   showError: (fieldId, message) => {
     const $field = $(`#${fieldId}`);
     const $formGroup = $field.closest('.mb-3, .mb-4');
     
-    // Remove any existing error
     $formGroup.find('.validation-error').remove();
     $field.removeClass('is-invalid');
     
-    // Add error styling
     $field.addClass('is-invalid');
     
-    // Create and append error message
     const $errorDiv = $('<div>', {
       class: 'validation-error',
       css: {
@@ -33,12 +28,10 @@ const formValidation = {
     
     $formGroup.append($errorDiv);
     
-    // Shake animation
     $field.css('animation', 'shake 0.3s ease');
     setTimeout(() => $field.css('animation', ''), 300);
   },
 
-  // Clear error for a field
   clearError: (fieldId) => {
     const $field = $(`#${fieldId}`);
     const $formGroup = $field.closest('.mb-3, .mb-4');
@@ -46,16 +39,13 @@ const formValidation = {
     $field.removeClass('is-invalid');
   },
 
-  // Clear all errors in a form
   clearAllErrors: (formSelector) => {
     const $form = $(formSelector);
     $form.find('.validation-error').remove();
     $form.find('.is-invalid').removeClass('is-invalid');
   },
 
-  // Show global form error
   showFormError: (message) => {
-    // Remove existing form error
     $('.form-global-error').remove();
     
     const $errorDiv = $('<div>', {
@@ -69,12 +59,10 @@ const formValidation = {
     $('form').prepend($errorDiv);
   },
 
-  // Clear global form error
   clearFormError: () => {
     $('.form-global-error').remove();
   },
 
-  // Validate required field
   validateRequired: (fieldId, fieldName) => {
     const value = $(`#${fieldId}`).val()?.trim();
     if (!value) {
@@ -85,7 +73,6 @@ const formValidation = {
     return true;
   },
 
-  // Validate email format
   validateEmail: (fieldId) => {
     const value = $(`#${fieldId}`).val()?.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -102,7 +89,6 @@ const formValidation = {
     return true;
   },
 
-  // Validate password length
   validatePassword: (fieldId, minLength = 6) => {
     const value = $(`#${fieldId}`).val();
     
@@ -118,9 +104,7 @@ const formValidation = {
     return true;
   },
 
-  // Show success message
   showSuccess: (message) => {
-    // Remove existing success message
     $('.form-success-message').remove();
     
     const $successDiv = $('<div>', {
@@ -148,16 +132,13 @@ const formValidation = {
     
     $('body').append($successDiv);
     
-    // Auto remove after 3 seconds
     setTimeout(() => {
       $successDiv.css('animation', 'slideOut 0.3s ease');
       setTimeout(() => $successDiv.remove(), 300);
     }, 3000);
   },
 
-  // Show error toast (for API errors)
   showErrorToast: (message) => {
-    // Remove existing error toast
     $('.form-error-toast').remove();
     
     const $errorDiv = $('<div>', {
@@ -185,7 +166,6 @@ const formValidation = {
     
     $('body').append($errorDiv);
     
-    // Auto remove after 4 seconds
     setTimeout(() => {
       $errorDiv.css('animation', 'slideOut 0.3s ease');
       setTimeout(() => $errorDiv.remove(), 300);
@@ -193,7 +173,6 @@ const formValidation = {
   }
 };
 
-// Add CSS animations for toasts
 $(() => {
   $('<style>')
     .prop('type', 'text/css')

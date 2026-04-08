@@ -29,12 +29,10 @@ const Login = () => {
     setError('');
     formValidation.clearAllErrors('form');
     
-    // Validate email
     if (!formValidation.validateEmail('email')) {
       return;
     }
     
-    // Validate password
     if (!formValidation.validateRequired('password', 'Password')) {
       return;
     }
@@ -56,7 +54,7 @@ const Login = () => {
   }
 
   return (
-    <>
+    <div className="login-page">
       <Navbar/>
       <div className="auth-page-container">
         <div className="card" style={{ maxWidth: '420px', width: '100%' }}>
@@ -116,7 +114,7 @@ const Login = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   )
 }
 

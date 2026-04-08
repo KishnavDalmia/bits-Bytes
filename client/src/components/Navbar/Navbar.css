@@ -91,7 +91,6 @@
   color: var(--bg-primary);
 }
 
-/* Hamburger Menu */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -126,7 +125,6 @@
   transform: translateY(-9px) rotate(-45deg);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
   .nav-container {
     padding: 1rem;

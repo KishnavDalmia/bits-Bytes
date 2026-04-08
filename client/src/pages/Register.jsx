@@ -31,17 +31,14 @@ const Register = () => {
     setError('');
     formValidation.clearAllErrors('form');
     
-    // Validate name
     if (!formValidation.validateRequired('name', 'Name')) {
       return;
     }
     
-    // Validate email
     if (!formValidation.validateEmail('email')) {
       return;
     }
     
-    // Validate password
     if (!formValidation.validatePassword('password', 6)) {
       return;
     }
@@ -66,20 +63,20 @@ const Register = () => {
     <>
       <Navbar/>
       <div className="auth-page-container">
-        <div className="card" style={{ maxWidth: '450px', width: '100%' }}>
-          <div className="card-body">
-            <h1 className="card-title text-center mb-1" style={{ fontSize: '2rem', fontWeight: 700 }}>Create Account</h1>
-            <p className="text-center text-muted mb-4">Join Bits&Bytes today</p>
+        <div className="auth-card" style={{ maxWidth: '450px', width: '100%' }}>
+          <div className="auth-card-body">
+            <h1 className="auth-card-title auth-text-center auth-mb-1" style={{ fontSize: '2rem', fontWeight: 700 }}>Create Account</h1>
+            <p className="auth-text-center auth-text-muted auth-mb-4">Join Bits&Bytes today</p>
             
             {error && (
-              <div className="alert alert-danger mb-3">
+              <div className="auth-alert-danger auth-mb-3">
                 {error}
               </div>
             )}
             
             <form onSubmit={handleRegister}>
-              <div className="mb-3">
-                <label htmlFor="name" className="form-label">Full Name</label>
+              <div className="auth-mb-3">
+                <label htmlFor="name" className="auth-form-label">Full Name</label>
                 <input 
                   type="text" 
                   id="name"
@@ -87,14 +84,14 @@ const Register = () => {
                   value={formData.name} 
                   onChange={handleChange} 
                   placeholder='John Doe' 
-                  className="form-control"
+                  className="auth-form-control"
                 />
               </div>
               
-              <div className="mb-3">
-                <label className="form-label">I want to</label>
-                <div className="d-flex gap-3 mt-2">
-                  <div className="form-check">
+              <div className="auth-mb-3">
+                <label className="auth-form-label">I want to</label>
+                <div className="auth-d-flex auth-gap-3 auth-mt-2">
+                  <div className="auth-form-check">
                     <input 
                       type="radio" 
                       name="role" 
@@ -102,11 +99,11 @@ const Register = () => {
                       id="customer"
                       checked={formData.role === 'Customer'}
                       onChange={handleChange}
-                      className="form-check-input"
+                      className="auth-form-check-input"
                     />
-                    <label htmlFor="customer" className="form-check-label">Send Packages</label>
+                    <label htmlFor="customer" className="auth-form-check-label">Send Packages</label>
                   </div>
-                  <div className="form-check">
+                  <div className="auth-form-check">
                     <input 
                       type="radio" 
                       name="role" 
@@ -114,15 +111,15 @@ const Register = () => {
                       id="runner"
                       checked={formData.role === 'Runner'}
                       onChange={handleChange}
-                      className="form-check-input"
+                      className="auth-form-check-input"
                     />
-                    <label htmlFor="runner" className="form-check-label">Deliver & Earn</label>
+                    <label htmlFor="runner" className="auth-form-check-label">Deliver & Earn</label>
                   </div>
                 </div>
               </div>
               
-              <div className="mb-3">
-                <label htmlFor="email" className="form-label">Email Address</label>
+              <div className="auth-mb-3">
+                <label htmlFor="email" className="auth-form-label">Email Address</label>
                 <input 
                   type="email" 
                   id="email"
@@ -130,12 +127,12 @@ const Register = () => {
                   onChange={handleChange} 
                   value={formData.email} 
                   placeholder='johndoe@university.edu' 
-                  className="form-control"
+                  className="auth-form-control"
                 />
               </div>
               
-              <div className="mb-4">
-                <label htmlFor="password" className="form-label">Password</label>
+              <div className="auth-mb-4">
+                <label htmlFor="password" className="auth-form-label">Password</label>
                 <input 
                   type="password" 
                   id="password"
@@ -143,23 +140,23 @@ const Register = () => {
                   onChange={handleChange} 
                   value={formData.password} 
                   placeholder='Create a strong password' 
-                  className="form-control"
+                  className="auth-form-control"
                 />
-                <div className="form-text">Must be at least 6 characters</div>
+                <div className="auth-form-text">Must be at least 6 characters</div>
               </div>
               
-              <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+              <button type="submit" className="auth-btn-primary auth-w-100" disabled={loading}>
                 {loading ? (
                   <>
-                    <span className="spinner-border me-2" style={{ width: '1rem', height: '1rem' }}></span>
+                    <span className="auth-spinner-border"></span>
                     Creating Account...
                   </>
                 ) : 'Create Account'}
               </button>
             </form>
             
-            <p className="text-center mt-4 mb-0">
-              <span className="text-muted">Already have an account?</span>
+            <p className="auth-text-center auth-mt-4" style={{ marginBottom: 0 }}>
+              <span className="auth-text-muted">Already have an account?</span>
               {' '}
               <a href="/login" style={{ color: 'var(--accent-primary)', fontWeight: 500 }}>Sign in</a>
             </p>

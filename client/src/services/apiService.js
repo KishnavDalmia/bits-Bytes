@@ -2,10 +2,6 @@ import $ from 'jquery';
 
 const API_BASE = 'http://localhost:3000/api';
 
-/**
- * jQuery-based API Service
- * Wraps jQuery AJAX with Promise support and standardized error handling
- */
 const request = (method, endpoint, data = null, options = {}) => {
   return new Promise((resolve, reject) => {
     $.ajax({
@@ -14,7 +10,7 @@ const request = (method, endpoint, data = null, options = {}) => {
       contentType: 'application/json',
       data: data ? JSON.stringify(data) : null,
       xhrFields: { 
-        withCredentials: true  // Enable cookies/credentials
+        withCredentials: true  
       },
       crossDomain: true,
       timeout: options.timeout || 30000,
@@ -38,59 +34,12 @@ const request = (method, endpoint, data = null, options = {}) => {
   });
 };
 
-/**
- * API Service Object
- * Provides RESTful methods for HTTP requests
- */
 const apiService = {
-  /**
-   * GET request
-   * @param {string} endpoint - API endpoint (e.g., '/orders/pending')
-   * @param {object} options - Optional configuration
-   * @returns {Promise} Resolves with response data
-   */
   get: (endpoint, options = {}) => request('GET', endpoint, null, options),
-
-  /**
-   * POST request
-   * @param {string} endpoint - API endpoint
-   * @param {object} data - Request body data
-   * @param {object} options - Optional configuration
-   * @returns {Promise} Resolves with response data
-   */
   post: (endpoint, data, options = {}) => request('POST', endpoint, data, options),
-
-  /**
-   * PATCH request
-   * @param {string} endpoint - API endpoint
-   * @param {object} data - Request body data
-   * @param {object} options - Optional configuration
-   * @returns {Promise} Resolves with response data
-   */
   patch: (endpoint, data = {}, options = {}) => request('PATCH', endpoint, data, options),
-
-  /**
-   * PUT request
-   * @param {string} endpoint - API endpoint
-   * @param {object} data - Request body data
-   * @param {object} options - Optional configuration
-   * @returns {Promise} Resolves with response data
-   */
   put: (endpoint, data, options = {}) => request('PUT', endpoint, data, options),
-
-  /**
-   * DELETE request
-   * @param {string} endpoint - API endpoint
-   * @param {object} options - Optional configuration
-   * @returns {Promise} Resolves with response data
-   */
   delete: (endpoint, options = {}) => request('DELETE', endpoint, null, options),
-
-  /**
-   * Custom request with full options
-   * @param {object} config - Full jQuery AJAX configuration
-   * @returns {Promise} Resolves with response data
-   */
   request: (config) => {
     return new Promise((resolve, reject) => {
       $.ajax({

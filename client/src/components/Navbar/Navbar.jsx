@@ -22,10 +22,8 @@ const Navbar = () => {
         
         checkAuth();
         
-        // Listen for storage changes (in case of login in another tab)
         window.addEventListener('storage', checkAuth);
         
-        // Also check auth when window gains focus
         window.addEventListener('focus', checkAuth);
         
         return () => {
@@ -60,14 +58,12 @@ const Navbar = () => {
         <div className='nav-container'>
             <div className="logo">Bits&Bytes</div>
             
-            {/* Hamburger Menu Button */}
             <button className='hamburger' onClick={toggleMobileMenu} aria-label="Toggle menu">
                 <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
                 <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
                 <span className={`hamburger-line ${isMobileMenuOpen ? 'open' : ''}`}></span>
             </button>
             
-            {/* Navigation Links */}
             <div className={`options ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
                 <button className='link' onClick={() => handleNavigation('/')}>
                     Home
@@ -77,7 +73,6 @@ const Navbar = () => {
                 </button>
             </div>
             
-            {/* Auth Buttons */}
             <div className={`auth ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
                 {isAuthenticated ? (
                     <button className='logout' onClick={handleLogout}>

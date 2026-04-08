@@ -84,6 +84,9 @@ const CustomerDashboard = () => {
                   </div>
                   <p className="order-description">{order.description}</p>
                   <div className="order-cost">₹{order.cost || 50}</div>
+                  {order.status === 'active' && order.runnerId?.name && (
+                    <div className="runner-info">Runner: {order.runnerId.name}</div>
+                  )}
                   {order.status === 'active' && (
                     <button
                       className="chat-btn"
@@ -109,7 +112,7 @@ const CustomerDashboard = () => {
                   key={order._id}
                   from={order.from}
                   to={order.to}
-                  runner="Unassigned"
+                  runner={order.runnerId?.name || "Unassigned"}
                 />
               ))
             )}

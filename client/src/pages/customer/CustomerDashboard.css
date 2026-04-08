@@ -156,6 +156,12 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: #28a745;
+  margin-bottom: 0.5rem;
+}
+
+.runner-info {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
   margin-bottom: 1rem;
 }
 

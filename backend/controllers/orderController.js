@@ -27,7 +27,9 @@ const getMyOrders = async (req, res) => {
         if (!req.session.userId) {
             return res.status(401).json({ message: 'Not authenticated' });
         }
-        const orders = await Order.find({ userId: req.session.userId }).sort({ createdAt: -1 });
+        const orders = await Order.find({ userId: req.session.userId })
+            .populate('runnerId', 'name')
+            .sort({ createdAt: -1 });
         res.json(orders);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -51,9 +53,6 @@ const acceptOrder = async (req, res) => {
         if (!req.session.userId) {
             return res.status(401).json({ message: 'Not authenticated' });
         }
-        // Atomic update: only matches if the order is still 'pending'.
-        // If two runners click simultaneously, only the first query matches;
-        // the second gets null and receives a 409.
         const order = await Order.findOneAndUpdate(
             { _id: req.params.id, status: 'pending' },
             { status: 'active', runnerId: req.session.userId },
